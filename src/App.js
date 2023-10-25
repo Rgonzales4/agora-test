@@ -16,7 +16,7 @@ const rtc = {
 
 async function join() {
   rtc.client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8", App: secrets.appId, token: secrets.token });
-  await rtc.client.join(secrets.appId, "main", secrets.token);
+  await rtc.client.join(secrets.appId, "main", secrets.token).then(() => startVideo());
 }
 
 async function leaveCall() {
@@ -46,7 +46,7 @@ async function startCall() {
 const App = () => {
   const [videoOn, setVideoOn] = useState(false);
   const [joined, setJoined] = useState(false);
-  console.log(process.env);
+
   const handleCamera = () => {
     if (videoOn) {
       stopVideo();
@@ -65,6 +65,7 @@ const App = () => {
           onClick={() => {
             startCall();
             setJoined(true);
+            setVideoOn(true);
           }}
         >
           Join Call
